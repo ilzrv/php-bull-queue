@@ -3,6 +3,8 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/ilzrv/php-bull-queue.svg)](https://packagist.org/packages/ilzrv/php-bull-queue)
 [![License](https://img.shields.io/github/license/ilzrv/php-bull-queue.svg)](https://packagist.org/packages/ilzrv/php-bull-queue)
 
+At the moment this library provides the ability to add jobs to the [Bull Queue](https://github.com/OptimalBits/bull).
+
 ## Installation
 
 You can install the package via composer:
