@@ -1,0 +1,22 @@
+{
+    "name": "ilzrv/php-bull-queue",
+    "description": "PHP Job Creator For Bull Queue",
+    "require": {
+        "php": "^7.4",
+        "ramsey/uuid": "^4.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ilia Lazarev",
+            "email": "me@ilzrv.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ilzrv\\PhpBullQueue\\": "src"
+        }
+    }
+}
+
+
