@@ -28,6 +28,7 @@ class LuaScripts
      * ARGV[10] LIFO
      * ARGV[11] token
      *
+     * @see https://github.com/OptimalBits/bull/blob/develop/lib/commands/addJob-6.lua
      * @return string
      */
     public static function add()
@@ -46,14 +47,12 @@ else
   jobId = ARGV[2]
   jobIdKey = ARGV[1] .. jobId
   if rcall("EXISTS", jobIdKey) == 1 then
-    return jobId .. "" -- convert to string
+    return jobId .. ""
   end
 end
 
--- Store the job.
 rcall("HMSET", jobIdKey, "name", ARGV[3], "data", ARGV[4], "opts", ARGV[5], "timestamp", ARGV[6], "delay", ARGV[7], "priority", ARGV[9])
 
--- Check if job is delayed
 local delayedTimestamp = tonumber(ARGV[8])
 if(delayedTimestamp ~= 0) then
   local timestamp = delayedTimestamp * 0x1000 + bit.band(jobCounter, 0xfff)
@@ -61,9 +60,6 @@ if(delayedTimestamp ~= 0) then
   rcall("PUBLISH", KEYS[5], delayedTimestamp)
 else
   local target
-
-  -- Whe check for the meta-paused key to decide if we are paused or not
-  -- (since an empty list and !EXISTS are not really the same)
   local paused
   if rcall("EXISTS", KEYS[3]) ~= 1 then
     target = KEYS[1]
@@ -73,13 +69,10 @@ else
     paused = true
   end
 
-  -- Standard or priority add
   local priority = tonumber(ARGV[9])
   if priority == 0 then
-      -- LIFO or FIFO
     rcall(ARGV[10], target, jobId)
   else
-    -- Priority add
     rcall("ZADD", KEYS[6], priority, jobId)
     local count = rcall("ZCOUNT", KEYS[6], 0, priority)
 
@@ -93,11 +86,10 @@ else
 
   end
 
-  -- Emit waiting event (wait..ing@token)
   rcall("PUBLISH", KEYS[1] .. "ing@" .. ARGV[11], jobId)
 end
 
-return jobId .. "" -- convert to string
+return jobId .. ""
 LUA;
     }
 }
