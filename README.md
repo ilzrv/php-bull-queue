@@ -34,6 +34,30 @@ $videoQueue->add(Queue::DEFAULT_JOB_NAME, [
 ]);
 ```
 
+If you want to use `predis` as Redis client:
+
+```php
+<?php
+
+use Ilzrv\PhpBullQueue\Queue;
+use Ilzrv\PhpBullQueue\DTOs\QueueOpts;
+use Ilzrv\PhpBullQueue\DTOs\RedisConfig;
+
+$videoQueue = new Queue(
+    'videoQueue',
+    new QueueOpts([
+        'redis' => new RedisConfig([
+            'driver' => 'predis',
+        ]),
+    ])
+);
+
+$videoQueue->add(Queue::DEFAULT_JOB_NAME, [
+    'video' => 'http://example.com/video1.mov'
+]);
+
+```
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.
