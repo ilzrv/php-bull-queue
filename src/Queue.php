@@ -78,7 +78,7 @@ class Queue
             case 'phpredis':
                 return new PhpRedisQueue($this->opts->redis);
             default:
-                throw new RuntimeException("{$this->opts->redis->driver} driver not supported.");
+                throw new RuntimeException("{$this->opts->redis->driver} driver is not supported.");
         }
     }
 }
