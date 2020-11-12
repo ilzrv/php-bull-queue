@@ -34,7 +34,7 @@ $videoQueue->add(Queue::DEFAULT_JOB_NAME, [
 ]);
 ```
 
-If you want to use `predis` as Redis client:
+If you want to use `predis` as Redis client (example configuration):
 
 ```php
 <?php
@@ -48,6 +48,9 @@ $videoQueue = new Queue(
     new QueueOpts([
         'redis' => new RedisConfig([
             'driver' => 'predis',
+            'host' => '127.0.0.1',
+            'port' => 6379,
+            'password' => '',
         ]),
     ])
 );
@@ -57,6 +60,32 @@ $videoQueue->add(Queue::DEFAULT_JOB_NAME, [
 ]);
 
 ```
+
+## Configurations
+
+All is configured via classes:
+
+* `Ilzrv\PhpBullQueue\DTOs\RedisConfig`
+* `Ilzrv\PhpBullQueue\DTOs\QueueOpts`
+* `Ilzrv\PhpBullQueue\DTOs\JobOpts`
+
+### RedisConfig
+* `driver` (string) Redis driver. Can be `phpredis` or `predis`. Default: `phpredis`
+* `host` (string) Redis host. Default: `127.0.0.1`
+* `port` (int) Redis port. Default: `6379`
+* `password` (string) Redis password. Default: `''`
+
+### QueueOpts
+* `redis` (RedisConfig Object) Redis Configuration.
+* `prefix` (string) Queue prefix. Default: `bull`
+
+### JobOpts
+* `customJobId` (string) Custom JobId. Default: `0`
+* `priority` (int) Job priority. Default: `0`
+* `lifo` (bool) Last In, First Out. Default: `false`
+* `attempts` (int) Job attempts. Default: `1`
+* `timestamp` (int) Current timestamp.
+* `delay` (int) Job delay. Default: `0`
 
 ## License
 
