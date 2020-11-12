@@ -18,15 +18,14 @@ class PhpRedisQueue implements RedisQueue
         } else {
             $this->client = new Redis();
 
-            $this->client->connect(
-                $config->host,
-                $config->port,
-            );
+            $this->client->connect($config->host, $config->port);
+            $this->client->auth($config->password);
         }
     }
 
     public function add(string $script, array $args, int $numKeys)
     {
+
         return $this->client->eval($script, $args, $numKeys);
     }
 }
