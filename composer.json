@@ -2,7 +2,7 @@
     "name": "ilzrv/php-bull-queue",
     "description": "PHP Job Creator For Bull Queue",
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "ramsey/uuid": "^4.1"
     },
     "license": "MIT",
