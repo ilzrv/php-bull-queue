@@ -37,7 +37,7 @@ class Queue
     public function add(string $name, array $data, JobOpts $opts = null)
     {
         $opts = $opts ?: new JobOpts([
-            'timestamp' => (int) str_replace('.', '', microtime(true)),
+            'timestamp' => (int) round(microtime(true) * 1000),
         ]);
 
         $prefix = sprintf('%s:%s:', $this->opts->prefix, $this->name);
