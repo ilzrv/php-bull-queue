@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Ilzrv\PhpBullQueue;
 
-use Ilzrv\PhpBullQueue\Drivers\PhpRedisQueue;
-use Ilzrv\PhpBullQueue\Drivers\PredisQueue;
-use Ilzrv\PhpBullQueue\Drivers\RedisQueue;
+use Ilzrv\PhpBullQueue\Clients\PhpRedisQueue;
+use Ilzrv\PhpBullQueue\Clients\PredisQueue;
+use Ilzrv\PhpBullQueue\Clients\RedisQueue;
 use Ilzrv\PhpBullQueue\DTOs\JobOpts;
 use Ilzrv\PhpBullQueue\DTOs\QueueOpts;
 use Ramsey\Uuid\Uuid;
@@ -42,7 +42,7 @@ class Queue
 
         $prefix = sprintf('%s:%s:', $this->opts->prefix, $this->name);
 
-        return $this->queue()->add(
+        return $this->client()->add(
             LuaScripts::add(),
             [
                 $prefix.'wait',
@@ -70,15 +70,15 @@ class Queue
     /**
      * @return RedisQueue
      */
-    protected function queue()
+    protected function client()
     {
-        switch ($this->opts->redis->driver) {
+        switch ($this->opts->redis->client) {
             case 'predis':
                 return new PredisQueue($this->opts->redis);
             case 'phpredis':
                 return new PhpRedisQueue($this->opts->redis);
             default:
-                throw new RuntimeException("{$this->opts->redis->driver} driver is not supported.");
+                throw new RuntimeException("{$this->opts->redis->client} client is not supported.");
         }
     }
 }

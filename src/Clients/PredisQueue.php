@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Ilzrv\PhpBullQueue\Drivers;
+namespace Ilzrv\PhpBullQueue\Clients;
 
 use Ilzrv\PhpBullQueue\DTOs\RedisConfig;
-use Redis;
+use Predis\Client as Redis;
 
-class PhpRedisQueue implements RedisQueue
+class PredisQueue implements RedisQueue
 {
     protected Redis $client;
 
@@ -16,16 +16,16 @@ class PhpRedisQueue implements RedisQueue
         if (!is_null($redis)) {
             $this->client = $redis;
         } else {
-            $this->client = new Redis();
-
-            $this->client->connect($config->host, $config->port);
-            $this->client->auth($config->password);
+            $this->client = new Redis([
+                'host' => $config->host,
+                'port' => $config->port,
+                'password' => $config->password,
+            ]);
         }
     }
 
     public function add(string $script, array $args, int $numKeys)
     {
-
-        return $this->client->eval($script, $args, $numKeys);
+        return $this->client->eval($script, $numKeys, ...$args);
     }
 }

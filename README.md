@@ -47,7 +47,7 @@ $videoQueue = new Queue(
     'videoQueue',
     new QueueOpts([
         'redis' => new RedisConfig([
-            'driver' => 'predis',
+            'client' => 'predis',
             'host' => '127.0.0.1',
             'port' => 6379,
             'password' => '',
@@ -70,7 +70,7 @@ All is configured via classes:
 * `Ilzrv\PhpBullQueue\DTOs\JobOpts`
 
 ### RedisConfig
-* `driver` (string) Redis driver. Can be `phpredis` or `predis`. Default: `phpredis`
+* `client` (string) Redis client. Can be `phpredis` or `predis`. Default: `phpredis`
 * `host` (string) Redis host. Default: `127.0.0.1`
 * `port` (int) Redis port. Default: `6379`
 * `password` (string) Redis password. Default: `''`
