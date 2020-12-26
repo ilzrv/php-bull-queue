@@ -36,9 +36,15 @@ class Queue
      */
     public function add(string $name, array $data, JobOpts $opts = null)
     {
+        $timestamp = (int) round(microtime(true) * 1000);
+
         $opts = $opts ?: new JobOpts([
-            'timestamp' => (int) round(microtime(true) * 1000),
+            'timestamp' => $timestamp,
         ]);
+
+        if (!$opts->timestamp) {
+            $opts->timestamp = $timestamp;
+        }
 
         $prefix = sprintf('%s:%s:', $this->opts->prefix, $this->name);
 
